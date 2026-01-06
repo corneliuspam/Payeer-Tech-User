@@ -1,238 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>PAYEER TECH</title>
 
+  <!-- Telegram WebApp -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #000;
-      color: #fff;
-    }
-
-    header {
-      background: #0d0d0d;
-      padding: 16px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 700;
-      color: #e53935;
-      letter-spacing: 1px;
-    }
-
-    .balance {
-      margin: 15px;
-      padding: 20px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #2e7d32, #c62828);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-      text-align: center;
-    }
-
-    .balance h2 {
-      margin: 0;
-      font-size: 15px;
-      opacity: 0.9;
-    }
-
-    .balance p {
-      font-size: 34px;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    .container {
-      padding: 15px;
-      padding-bottom: 110px;
-    }
-
-    .card {
-      background: #111;
-      border-radius: 16px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-    }
-
-    h3 {
-      margin-top: 0;
-      color: #4caf50;
-      font-size: 16px;
-    }
-
-    .leaderboard li {
-      margin-bottom: 6px;
-    }
-
-    .notice {
-      background: linear-gradient(135deg, #1c1c1c, #111);
-      border-left: 4px solid #e53935;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      background: #1b1b1b;
-      color: #fff;
-      margin-top: 10px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #e53935, #b71c1c);
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    /* Floating bottom navigation */
-    .menu {
-      position: fixed;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 92%;
-      background: #111;
-      border-radius: 25px;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 0;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-    }
-
-    .menu button {
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 12px;
-    }
-
-    .menu i {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .menu .active {
-      color: #e53935;
-    }
-
-    .page { display: none; }
-    .page.active { display: block; }
+    body{margin:0;background:#000;font-family:Segoe UI,sans-serif;color:#fff}
+    .header{padding:15px;background:#111;text-align:center;font-weight:bold;color:#e53935}
+    .profile{display:flex;align-items:center;background:#111;padding:15px;margin:15px;border-radius:15px}
+    .profile img{width:55px;height:55px;border-radius:50%;margin-right:15px;border:2px solid #e53935}
+    .profile-info small{color:#aaa}
+    .balance{background:linear-gradient(135deg,#e53935,#43a047);margin:15px;padding:20px;border-radius:18px;text-align:center}
+    .balance h2{margin:5px 0;font-size:26px}
+    .message{background:#111;margin:15px;padding:12px;border-left:4px solid #e53935;border-radius:10px;font-size:14px}
+    .content{padding:15px;padding-bottom:80px}
+    .card{background:#111;padding:15px;border-radius:15px;margin-bottom:15px}
+    button{width:100%;padding:12px;border:none;border-radius:10px;background:#e53935;color:#fff;font-size:15px;margin-top:10px}
+    input{width:100%;padding:10px;border-radius:8px;border:none;margin-top:8px}
+    .nav{position:fixed;bottom:0;width:100%;background:#111;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #222}
+    .nav i{font-size:20px;color:#aaa}
+    .nav i.active{color:#e53935}
   </style>
 </head>
 <body>
 
-<header>PAYEER TECH</header>
+<div class="header">PAYEER TECH</div>
 
-<!-- HOME -->
-<div id="home" class="page active">
-  <div class="balance">
-    <h2>Available Balance</h2>
-    <p>₦<span id="balance">0</span></p>
-  </div>
-
-  <div class="container">
-    <div class="card">
-      <h3><i class="fa-solid fa-trophy"></i> Leaderboard</h3>
-      <ol class="leaderboard">
-        <li>👑 Adebayo – ₦25,000</li>
-        <li>🥈 Chioma – ₦18,000</li>
-        <li>🥉 Musa – ₦14,500</li>
-      </ol>
-    </div>
-
-    <div class="card notice">
-      <h3><i class="fa-solid fa-bullhorn"></i> Announcement</h3>
-      <p id="announcement">Welcome to PAYEER TECH – Earn smart 💰</p>
-    </div>
+<!-- PROFILE -->
+<div class="profile">
+  <img id="profilePic" src="https://i.pravatar.cc/150" />
+  <div class="profile-info">
+    <strong>User ID: <span id="uid">---</span></strong><br>
+    <small>Total Earned: ₦<span id="earned">0</span></small>
   </div>
 </div>
 
-<!-- TASKS -->
-<div id="tasks" class="page">
-  <div class="container">
-    <div class="card">
-      <h3><i class="fa-solid fa-list-check"></i> Available Task</h3>
-      <p>Join our official Telegram channel</p>
-      <p><b>Reward:</b> ₦1000</p>
-      <button onclick="submitTask()">Submit Task</button>
-      <p id="taskStatus"></p>
-    </div>
-  </div>
+<!-- BALANCE -->
+<div class="balance">
+  <small>Available Balance</small>
+  <h2>₦<span id="balance">0</span></h2>
 </div>
 
-<!-- REFERRAL -->
-<div id="referral" class="page">
-  <div class="container">
-    <div class="card">
-      <h3><i class="fa-solid fa-user-plus"></i> Referral Link</h3>
-      <input id="refLink" readonly />
-      <button onclick="copyReferral()">Copy Referral Link</button>
-    </div>
+<!-- ADMIN MESSAGE -->
+<div class="message" id="announcement">📢 Loading announcement...</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="card">
+    <h4>🎥 Available Tasks</h4>
+    <p>Watch video & submit proof</p>
+    <button onclick="submitTask()">Submit Task</button>
   </div>
+
+  <div class="card">
+    <h4>🤝 Referral Program</h4>
+    <p>Invite friends & earn ₦1000</p>
+    <input id="refLink" readonly />
+    <button onclick="copyRef()">Copy Referral Link</button>
+  </div>
+
+  <div class="card">
+    <h4>🏦 Withdraw Earnings</h4>
+    <p>Minimum ₦5000 • Subscription ₦2000</p>
+    <button onclick="requestWithdrawal()">Request Withdrawal</button>
+  </div>
+
 </div>
 
-<!-- WITHDRAW -->
-<div id="withdraw" class="page">
-  <div class="container">
-    <div class="card">
-      <h3><i class="fa-solid fa-building-columns"></i> Withdraw Funds</h3>
-      <p>Minimum withdrawal: ₦5000</p>
-      <p>Subscription required: ₦2000</p>
-      <input placeholder="Bank Name" />
-      <input placeholder="Account Number" />
-      <input placeholder="Account Name" />
-      <button onclick="requestWithdrawal()">Request Withdrawal</button>
-      <p id="withdrawStatus"></p>
-    </div>
-  </div>
-</div>
-
-<!-- FLOATING MENU -->
-<div class="menu">
-  <button onclick="openPage('home')" class="active" id="btn-home"><i class="fa-solid fa-house"></i>Home</button>
-  <button onclick="openPage('tasks')" id="btn-tasks"><i class="fa-solid fa-list"></i>Tasks</button>
-  <button onclick="openPage('referral')" id="btn-ref"><i class="fa-solid fa-users"></i>Refer</button>
-  <button onclick="openPage('withdraw')" id="btn-with"><i class="fa-solid fa-wallet"></i>Withdraw</button>
+<!-- NAV -->
+<div class="nav">
+  <i class="fa fa-home active"></i>
+  <i class="fa fa-tasks"></i>
+  <i class="fa fa-users"></i>
+  <i class="fa fa-wallet"></i>
 </div>
 
 <script>
-  const userId = '123456789';
-  document.getElementById('refLink').value = `https://t.me/PayeerTechBot?start=${userId}`;
+const BACKEND = 'https://your-backend.com'; // CHANGE THIS
+const tg = window.Telegram.WebApp;
+tg.ready();
 
-  function openPage(page) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(page).classList.add('active');
+const tgUser = tg.initDataUnsafe.user;
 
-    document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-    document.getElementById('btn-' + page).classList.add('active');
+if (tgUser) {
+  document.getElementById('uid').innerText = tgUser.id;
+  if (tgUser.photo_url) {
+    document.getElementById('profilePic').src = tgUser.photo_url;
   }
+  document.getElementById('refLink').value = `https://t.me/YourBot?start=REF_${tgUser.id}`;
+}
 
-  function submitTask() {
-    document.getElementById('taskStatus').innerText = 'Task submitted. Awaiting admin approval.';
-  }
+async function loadUser() {
+  const res = await fetch(`${BACKEND}/api/user`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ telegramId: tgUser.id })
+  });
 
-  function copyReferral() {
-    navigator.clipboard.writeText(document.getElementById('refLink').value);
-    alert('Referral link copied');
-  }
+  const data = await res.json();
+  document.getElementById('balance').innerText = data.balance;
+  document.getElementById('earned').innerText = data.totalEarned;
+}
 
-  function requestWithdrawal() {
-    document.getElementById('withdrawStatus').innerText = 'Withdrawal request sent for admin approval.';
-  }
+async function loadAnnouncement() {
+  const res = await fetch(`${BACKEND}/api/announcement`);
+  const data = await res.json();
+  document.getElementById('announcement').innerText = '📢 ' + data.message;
+}
+
+function copyRef() {
+  navigator.clipboard.writeText(document.getElementById('refLink').value);
+  alert('Referral link copied');
+}
+
+function submitTask() {
+  alert('Task submitted for admin approval');
+}
+
+function requestWithdrawal() {
+  alert('Withdrawal request sent to admin');
+}
+
+loadUser();
+loadAnnouncement();
 </script>
 
 </body>
