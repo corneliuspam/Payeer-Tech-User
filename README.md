@@ -1,136 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PAYEER TECH</title>
 
-  <!-- Telegram WebApp -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
   <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    body{margin:0;background:#000;font-family:Segoe UI,sans-serif;color:#fff}
-    .header{padding:15px;background:#111;text-align:center;font-weight:bold;color:#e53935}
-    .profile{display:flex;align-items:center;background:#111;padding:15px;margin:15px;border-radius:15px}
-    .profile img{width:55px;height:55px;border-radius:50%;margin-right:15px;border:2px solid #e53935}
-    .profile-info small{color:#aaa}
-    .balance{background:linear-gradient(135deg,#e53935,#43a047);margin:15px;padding:20px;border-radius:18px;text-align:center}
-    .balance h2{margin:5px 0;font-size:26px}
-    .message{background:#111;margin:15px;padding:12px;border-left:4px solid #e53935;border-radius:10px;font-size:14px}
-    .content{padding:15px;padding-bottom:80px}
-    .card{background:#111;padding:15px;border-radius:15px;margin-bottom:15px}
-    button{width:100%;padding:12px;border:none;border-radius:10px;background:#e53935;color:#fff;font-size:15px;margin-top:10px}
-    input{width:100%;padding:10px;border-radius:8px;border:none;margin-top:8px}
-    .nav{position:fixed;bottom:0;width:100%;background:#111;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #222}
-    .nav i{font-size:20px;color:#aaa}
-    .nav i.active{color:#e53935}
+    body{
+      margin:0;
+      background:#000;
+      color:#fff;
+      font-family:Arial,Helvetica,sans-serif;
+    }
+    .app{padding-bottom:90px;}
+    .header{
+      background:#111;
+      padding:15px;
+      text-align:center;
+      font-size:20px;
+      font-weight:bold;
+      color:#e53935;
+    }
+    .card{
+      background:#111;
+      margin:15px;
+      padding:15px;
+      border-radius:14px;
+      box-shadow:0 0 10px rgba(0,0,0,.6);
+    }
+    .balance{
+      background:linear-gradient(135deg,#e53935,#43a047);
+      padding:20px;
+      border-radius:16px;
+      text-align:center;
+    }
+    .balance h1{margin:5px 0;font-size:30px;}
+    .row{display:flex;justify-content:space-between;align-items:center;}
+    .btn{
+      background:#e53935;
+      border:none;
+      padding:12px;
+      width:100%;
+      border-radius:10px;
+      color:#fff;
+      margin-top:10px;
+      font-size:15px;
+    }
+    .task{
+      border-bottom:1px solid #333;
+      padding:10px 0;
+    }
+    .task:last-child{border:none;}
+    .bottom-nav{
+      position:fixed;
+      bottom:0;
+      width:100%;
+      background:#111;
+      display:flex;
+      justify-content:space-around;
+      padding:10px 0;
+      box-shadow:0 -2px 10px rgba(0,0,0,.7);
+    }
+    .nav-btn{
+      color:#aaa;
+      text-align:center;
+      font-size:12px;
+    }
+    .nav-btn i{font-size:20px;display:block;margin-bottom:3px;}
+    .active{color:#e53935;}
+    .page{display:none;}
+    .page.active{display:block;}
+    .profile{text-align:center;}
+    .profile img{
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      margin-bottom:10px;
+    }
   </style>
 </head>
 <body>
 
 <div class="header">PAYEER TECH</div>
 
-<!-- PROFILE -->
-<div class="profile">
-  <img id="profilePic" src="https://i.pravatar.cc/150" />
-  <div class="profile-info">
-    <strong>User ID: <span id="uid">---</span></strong><br>
-    <small>Total Earned: ₦<span id="earned">0</span></small>
+<div class="app">
+
+  <!-- HOME / WALLET -->
+  <div id="home" class="page active">
+    <div class="card balance">
+      <div>Available Balance</div>
+      <h1>₦ <span id="balance">0</span></h1>
+      <small>Minimum withdrawal ₦5000</small>
+    </div>
+
+    <div class="card">
+      <h3>Admin Message</h3>
+      <p id="announcement">Welcome to PAYEER TECH</p>
+    </div>
+
+    <div class="card">
+      <h3>Leaderboard</h3>
+      <p>🔥 Top Earners Today</p>
+      <ol>
+        <li>User123 – ₦25,000</li>
+        <li>User456 – ₦18,000</li>
+        <li>User789 – ₦12,000</li>
+      </ol>
+    </div>
   </div>
+
+  <!-- TASKS -->
+  <div id="tasks" class="page">
+    <div class="card">
+      <h3>Available Tasks</h3>
+      <div class="task">
+        <b>Join Telegram Channel</b>
+        <p>Reward: ₦1000</p>
+        <button class="btn">Submit Task</button>
+      </div>
+      <div class="task">
+        <b>Follow Instagram Page</b>
+        <p>Reward: ₦1000</p>
+        <button class="btn">Submit Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERRAL -->
+  <div id="referral" class="page">
+    <div class="card">
+      <h3>Your Referral Link</h3>
+      <input value="https://t.me/payeertech_bot?start=123456" readonly style="width:100%;padding:10px;border-radius:8px;border:none">
+      <button class="btn">Copy Link</button>
+      <p>Earn when your referrals complete tasks.</p>
+    </div>
+  </div>
+
+  <!-- WITHDRAW -->
+  <div id="withdraw" class="page">
+    <div class="card">
+      <h3>Withdraw Earnings</h3>
+      <p>Subscription Fee: ₦2000 (required)</p>
+      <input placeholder="Bank Name">
+      <input placeholder="Account Number">
+      <input placeholder="Account Name">
+      <button class="btn">Request Withdrawal</button>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profile" class="page">
+    <div class="card profile">
+      <img id="avatar" src="https://via.placeholder.com/90">
+      <h3 id="username">Telegram User</h3>
+      <p>ID: <span id="userid">---</span></p>
+      <p>Total Earnings: ₦ <span id="totalearn">0</span></p>
+    </div>
+  </div>
+
 </div>
 
-<!-- BALANCE -->
-<div class="balance">
-  <small>Available Balance</small>
-  <h2>₦<span id="balance">0</span></h2>
-</div>
-
-<!-- ADMIN MESSAGE -->
-<div class="message" id="announcement">📢 Loading announcement...</div>
-
-<!-- CONTENT -->
-<div class="content">
-
-  <div class="card">
-    <h4>🎥 Available Tasks</h4>
-    <p>Watch video & submit proof</p>
-    <button onclick="submitTask()">Submit Task</button>
-  </div>
-
-  <div class="card">
-    <h4>🤝 Referral Program</h4>
-    <p>Invite friends & earn ₦1000</p>
-    <input id="refLink" readonly />
-    <button onclick="copyRef()">Copy Referral Link</button>
-  </div>
-
-  <div class="card">
-    <h4>🏦 Withdraw Earnings</h4>
-    <p>Minimum ₦5000 • Subscription ₦2000</p>
-    <button onclick="requestWithdrawal()">Request Withdrawal</button>
-  </div>
-
-</div>
-
-<!-- NAV -->
-<div class="nav">
-  <i class="fa fa-home active"></i>
-  <i class="fa fa-tasks"></i>
-  <i class="fa fa-users"></i>
-  <i class="fa fa-wallet"></i>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-btn active" onclick="show('home')"><i class="fa fa-wallet"></i>Home</div>
+  <div class="nav-btn" onclick="show('tasks')"><i class="fa fa-list"></i>Tasks</div>
+  <div class="nav-btn" onclick="show('referral')"><i class="fa fa-users"></i>Referrals</div>
+  <div class="nav-btn" onclick="show('withdraw')"><i class="fa fa-bank"></i>Withdraw</div>
+  <div class="nav-btn" onclick="show('profile')"><i class="fa fa-user"></i>Profile</div>
 </div>
 
 <script>
-const BACKEND = 'https://your-backend.com'; // CHANGE THIS
-const tg = window.Telegram.WebApp;
-tg.ready();
-
-const tgUser = tg.initDataUnsafe.user;
-
-if (tgUser) {
-  document.getElementById('uid').innerText = tgUser.id;
-  if (tgUser.photo_url) {
-    document.getElementById('profilePic').src = tgUser.photo_url;
+  function show(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
   }
-  document.getElementById('refLink').value = `https://t.me/YourBot?start=REF_${tgUser.id}`;
-}
 
-async function loadUser() {
-  const res = await fetch(`${BACKEND}/api/user`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ telegramId: tgUser.id })
-  });
-
-  const data = await res.json();
-  document.getElementById('balance').innerText = data.balance;
-  document.getElementById('earned').innerText = data.totalEarned;
-}
-
-async function loadAnnouncement() {
-  const res = await fetch(`${BACKEND}/api/announcement`);
-  const data = await res.json();
-  document.getElementById('announcement').innerText = '📢 ' + data.message;
-}
-
-function copyRef() {
-  navigator.clipboard.writeText(document.getElementById('refLink').value);
-  alert('Referral link copied');
-}
-
-function submitTask() {
-  alert('Task submitted for admin approval');
-}
-
-function requestWithdrawal() {
-  alert('Withdrawal request sent to admin');
-}
-
-loadUser();
-loadAnnouncement();
+  // Telegram auto load
+  if(window.Telegram && Telegram.WebApp){
+    const user = Telegram.WebApp.initDataUnsafe.user;
+    if(user){
+      document.getElementById('username').innerText = user.first_name;
+      document.getElementById('userid').innerText = user.id;
+      if(user.photo_url) document.getElementById('avatar').src = user.photo_url;
+    }
+  }
 </script>
 
 </body>
